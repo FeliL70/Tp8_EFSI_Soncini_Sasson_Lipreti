@@ -6,7 +6,13 @@ function Home() {
   return (
     <div className="container1">
       <h1>Bienvenidos a la tienda oficial de SOCCONE</h1>
-      <p>Los mejores videojuegos del mundo</p>
+
+      <img 
+        src="/assets/logo.png" 
+        style={{ width: '100%', maxWidth: '100%', height: 'auto', marginBottom: '20px' }}
+      />
+
+  
     </div>
   )
 }
