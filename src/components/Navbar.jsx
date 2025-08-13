@@ -16,7 +16,8 @@ function Navbar() {
           { id: 4, nombre: 'Deportes' },
           { id: 5, nombre: 'Libros' }
         ]
-        
+
+        console.log('Categorías cargadas:', data)
         setCategorias(data)
         setLoading(false)
       } catch (err) {
@@ -30,6 +31,15 @@ function Navbar() {
 
   if (loading) return <div className="loading">Cargando...</div>
   if (error) return <div className="error">{error}</div>
+
+  const getNombreCategoria = (nombre) => {
+    if (typeof nombre === 'string') return nombre
+    if (typeof nombre === 'object' && nombre !== null) {
+      const firstKey = Object.keys(nombre)[0]
+      return nombre[firstKey] || 'Sin nombre'
+    }
+    return 'Sin nombre'
+  }
 
   return (
     <nav>
@@ -45,7 +55,7 @@ function Navbar() {
                 key={categoria.id} 
                 to={`/productos/categoria/${categoria.id}`}
               >
-                {categoria.nombre}
+                {getNombreCategoria(categoria.nombre)}
               </Link>
             ))}
           </div>

@@ -4,7 +4,7 @@ import Footer from './Footer'
 
 function Layout() {
   return (
-    <>
+    <div className="app">
       <Header />
       <main>
         <div className="container">
@@ -12,7 +12,7 @@ function Layout() {
         </div>
       </main>
       <Footer />
-    </>
+    </div>
   )
 }
 

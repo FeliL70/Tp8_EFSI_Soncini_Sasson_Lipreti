@@ -3,12 +3,12 @@ function QuienesSomos() {
     <div>
       <h1>Nuestas oficinas, Finlandia</h1>
       <img 
-        src="/assets/Oficina.jpg" 
+        src="/assets/la ofi.jpg" 
         alt="Oficinas Finlandia" 
         style={{ width: '100%', maxWidth: '800px', height: 'auto', marginBottom: '20px' }}
       />
       <h2>Quienes Somos</h2>
-      <p>Somos una empresa de videojuegos, CLASHROYALE.</p>
+      <p>Somos una empresa familiar de 2500 años de trayectoria.</p>
       <p>¡Bienvenidos a nuestras nuevas oficinas.</p>
     </div>
   )

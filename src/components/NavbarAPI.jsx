@@ -10,20 +10,39 @@ function NavbarAPI() {
     const fetchCategorias = async () => {
       try {
         const response = await fetch('https://dummyjson.com/products/categories')
+        if (!response.ok) throw new Error('HTTP ' + response.status)
         const data = await response.json()
-        setCategorias(data)
-        setLoading(false)
+        setCategorias(Array.isArray(data) ? data : [])
       } catch (err) {
+        console.error(err)
         setError('Error al cargar categorías')
+      } finally {
         setLoading(false)
       }
     }
-
     fetchCategorias()
   }, [])
 
   if (loading) return <div className="loading">Cargando categorías...</div>
   if (error) return <div className="error">{error}</div>
+
+  // helpers
+  const prettify = (s = '') =>
+    s.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+
+  const normalize = (item) => {
+    // si viene como string: "mens-shoes"
+    if (typeof item === 'string') {
+      return { slug: item, name: prettify(item) }
+    }
+    // si viene como objeto: { slug: 'mens-shoes', name: 'Mens Shoes' }
+    if (item && typeof item === 'object') {
+      const slug = item.slug ?? (item.name ? item.name.toLowerCase().replace(/\s+/g, '-') : '')
+      const name = item.name ?? prettify(slug)
+      return { slug, name }
+    }
+    return { slug: '', name: 'Sin nombre' }
+  }
 
   return (
     <nav>
@@ -34,15 +53,12 @@ function NavbarAPI() {
           <Link to="/productos">Productos</Link>
           <div className="dropdown-content">
             <Link to="/productos">Ver todos</Link>
-            {categorias.map((categoria) => {
-              const categoriaStr = String(categoria)
-              const nombreFormateado = categoriaStr.charAt(0).toUpperCase() + categoriaStr.slice(1)
+            {categorias.map((cat, i) => {
+              const { slug, name } = normalize(cat)
+              const key = slug || String(i)
               return (
-                <Link 
-                  key={categoriaStr} 
-                  to={`/productos/categoria/${categoriaStr}`}
-                >
-                  {nombreFormateado}
+                <Link key={key} to={`/productos/categoria/${encodeURIComponent(slug)}`}>
+                  {name}
                 </Link>
               )
             })}
